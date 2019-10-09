@@ -1,6 +1,7 @@
 require("dotenv").config();
-//var keys = require("./keys.js");
-//var spotify = new Spotify(keys.spotify);
+var keys = require("./keys.js");
+var Spotify = require("node-spotify-api");
+var spotify = new Spotify(keys.spotify);
 var fs = require("fs");
 
 
@@ -119,7 +120,7 @@ function concert_this() {
 }
 
 function spotify_this_song() {
-    // Grab or assemble the artist name and store it in a variable called "artistName"
+    // Grab or assemble the song title and store it in a variable called "songName"
     let songName = process.argv[3];
     // ...
 
@@ -129,7 +130,13 @@ function spotify_this_song() {
             return console.log('Error occurred: ' + err);
         }
 
-        console.log(data);
+        //console.log(data.tracks.items[0]);
+        console.log(`
+        Artist: ${data.tracks.items[0].artists[0].name}
+        Song Name: ${data.tracks.items[0].name}
+        Album: ${data.tracks.items[0].album.name}
+        Preview: ${data.tracks.items[0].external_urls.spotify}
+        `)
     });
 }
 
