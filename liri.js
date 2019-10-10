@@ -3,6 +3,7 @@ var keys = require("./keys.js");
 var Spotify = require("node-spotify-api");
 var spotify = new Spotify(keys.spotify);
 var fs = require("fs");
+var moment = require("moment");
 
 
 // Include the axios npm package (Don't forget to run "npm install axios" in this folder first!)
@@ -54,10 +55,16 @@ function runCommand() {
                     break;
 
                 case "spotify-this-song":
+                    if (!array[3]) {
+                        array[3] = "The Sign";
+                    }
                     spotify_this_song();
                     break;
 
                 case "movie-this":
+                    if (!array[3]) {
+                        array[3] = "Mr. Nobody";
+                    }
                     movie_this();
                     break;
             }
@@ -135,7 +142,7 @@ function concert_this() {
             //console.log(response.data[1].datetime.slice(0,10));
             console.log("The venue is: " + response.data[1].venue.name);
             console.log(`The venue's location is: ${response.data[1].venue.city}, ${response.data[1].venue.region}`);
-            console.log(`The date of the event is: ${response.data[1].datetime.slice(0, 10)}`);
+            console.log(`The date of the event is: ${moment(response.data[1].datetime.slice(0, 10)).format("L")}`);
         }
     )
         .catch(function (error) {
