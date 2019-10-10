@@ -9,26 +9,67 @@ var fs = require("fs");
 const axios = require("axios");
 // ...
 
-// The command for Liri in a variable called "liriCommand"
-let liriCommand = process.argv[2];
+function runCommand() {
+    process.argv.forEach(function (val, index, array) {
+        //console.log(index + ': ' + val);
+        if (val === "do-what-it-says") {
+            fs.readFile("random.txt", "utf8", function (error, data) {
 
-switch (liriCommand) {
-    case "concert-this":
-        concert_this();
-        break;
+                // If the code experiences any errors it will log the error to the console.
+                if (error) {
+                    return console.log(error);
+                }
 
-    case "spotify-this-song":
-        spotify_this_song();
-        break;
+                // We will then print the contents of data
+                //console.log(data);
 
-    case "movie-this":
-        movie_this();
-        break;
+                // Then split it by commas (to make it more readable)
+                var dataArr = data.split(",");
+                //console.log(dataArr);
 
-    case "do-what-it-says":
-        do_what_it_says();
-        break;
+                array[2] = dataArr[0];
+                //console.log(array[2]);
+                array[3] = dataArr[1];
+                //console.log(array[3]);
+                //console.log(array);
+                switch (array[2]) {
+                    case "concert-this":
+                        concert_this();
+                        break;
+
+                    case "spotify-this-song":
+                        spotify_this_song();
+                        break;
+
+                    case "movie-this":
+                        movie_this();
+                        break;
+                }
+            })
+        }
+        else {
+            switch (array[2]) {
+                case "concert-this":
+                    concert_this();
+                    break;
+
+                case "spotify-this-song":
+                    spotify_this_song();
+                    break;
+
+                case "movie-this":
+                    movie_this();
+                    break;
+            }
+        }
+    });
 }
+
+runCommand();
+
+// The command for Liri in a variable called "liriCommand"
+// let liriCommand = process.argv[2];
+
 
 function movie_this() {
     // Grab or assemble the movie name and store it in a variable called "movieName"
@@ -140,7 +181,8 @@ function spotify_this_song() {
     });
 }
 
-function do_what_it_says() {
+/*function do_what_it_says() {
+    const args = process.argv;
     fs.readFile("random.txt", "utf8", function (error, data) {
 
         // If the code experiences any errors it will log the error to the console.
@@ -153,26 +195,26 @@ function do_what_it_says() {
 
         // Then split it by commas (to make it more readable)
         var dataArr = data.split(",");
+        console.log(dataArr);
 
         let newCommand = dataArr[0];
+        console.log(newCommand);
         let newQuery = dataArr[1];
+        console.log(newQuery);
+        console.log(newCommand === "spotify-this-song");
         switch (newCommand) {
             case "concert-this":
                 concert_this(newQuery);
                 break;
-        
+
             case "spotify-this-song":
-                spotify_this_song(newQuery);
+                spotify_this_song();
                 break;
-        
+
             case "movie-this":
                 movie_this(newQuery);
-                break;
-        
-            case "do-what-it-says":
-                do_what_it_says(newQuery);
                 break;
         }
 
     });
-}
+}*/
