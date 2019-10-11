@@ -11,65 +11,65 @@ const axios = require("axios");
 // ...
 
 function runCommand() {
-    process.argv.forEach(function (val, index, array) {
-        //console.log(index + ': ' + val);
-        if (val === "do-what-it-says") {
-            fs.readFile("random.txt", "utf8", function (error, data) {
+    const array = process.argv;
+    //console.log(index + ': ' + val);
+    if (array[2] === "do-what-it-says") {
+        fs.readFile("random.txt", "utf8", function (error, data) {
 
-                // If the code experiences any errors it will log the error to the console.
-                if (error) {
-                    return console.log(error);
-                }
+            // If the code experiences any errors it will log the error to the console.
+            if (error) {
+                return console.log(error);
+            }
 
-                // We will then print the contents of data
-                //console.log(data);
+            // We will then print the contents of data
+            //console.log(data);
 
-                // Then split it by commas (to make it more readable)
-                var dataArr = data.split(",");
-                //console.log(dataArr);
+            // Then split it by commas (to make it more readable)
+            var dataArr = data.split(",");
+            //console.log(dataArr);
 
-                array[2] = dataArr[0];
-                //console.log(array[2]);
-                array[3] = dataArr[1];
-                //console.log(array[3]);
-                //console.log(array);
-                switch (array[2]) {
-                    case "concert-this":
-                        concert_this();
-                        break;
-
-                    case "spotify-this-song":
-                        spotify_this_song();
-                        break;
-
-                    case "movie-this":
-                        movie_this();
-                        break;
-                }
-            })
-        }
-        else {
-            switch (array[2]) {
+            // array[2] = dataArr[0];
+            // //console.log(array[2]);
+            // array[3] = dataArr[1];
+            //console.log(array[3]);
+            //console.log(array);
+            switch (dataArr[2]) {
                 case "concert-this":
                     concert_this();
                     break;
 
                 case "spotify-this-song":
-                    if (!array[3]) {
-                        array[3] = "The Sign";
-                    }
                     spotify_this_song();
                     break;
 
                 case "movie-this":
-                    if (!array[3]) {
-                        array[3] = "Mr. Nobody";
-                    }
                     movie_this();
                     break;
             }
+        })
+    }
+    else {
+        switch (array[2]) {
+            case "concert-this":
+                concert_this();
+                break;
+
+            case "spotify-this-song":
+                if (!array[3]) {
+                    array[3] = "The Sign";
+                }
+                spotify_this_song();
+                break;
+
+            case "movie-this":
+                if (!array[3]) {
+                    array[3] = "Mr. Nobody";
+                }
+                movie_this();
+                break;
         }
-    });
+    }
+
 }
 
 runCommand();
